@@ -56,3 +56,4 @@ group :development do
   gem "web-console"
 end
 
+gem "devise" 
