@@ -2,8 +2,13 @@
 <p>Flip your plans, find your adventure.</p>
 <% if user_signed_in? %>
   <p>Hello, <%= current_user.email %>!</p>
-  <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+  <%= link_to "Sign out", destroy_user_session_path,
+              data: { turbo_method: :delete },
+              class: "sign-out-link" %>
 <% else %>
+  <p>Join the adventure:</p>
+  <%= link_to 'Become a traveler', new_user_registration_path(type: 'traveler') %> |
+  <%= link_to 'Become a travel agent', new_user_registration_path(type: 'travel_agent') %><br>
   <%= link_to "Login", new_user_session_path %> |
   <%= link_to "Sign Up", new_user_registration_path %>
 <% end %>
