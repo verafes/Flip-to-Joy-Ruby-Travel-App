@@ -1,5 +1,7 @@
 class Trip < ApplicationRecord
-  belongs_to :user
+  belongs_to :user # travel agent who created the trip
+  has_many :booked_trips
+  has_many :travelers, through: :booked_trips, source: :traveler
 
   validates :destination, presence: true
   validates :meeting_point, presence: true
