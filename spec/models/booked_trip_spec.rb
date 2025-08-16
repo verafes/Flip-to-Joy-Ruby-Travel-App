@@ -56,5 +56,15 @@ RSpec.describe BookedTrip, type: :model do
       expect(booked_trip).not_to be_valid
       expect(booked_trip.errors[:traveler]).to include("must exist")
     end
+
+    it 'belongs to the correct trip' do
+      booked_trip = BookedTrip.new(trip: trip, traveler: traveler)
+      expect(booked_trip.trip).to eq(trip)
+    end
+
+    it 'belongs to the correct traveler' do
+      booked_trip = BookedTrip.new(trip: trip, traveler: traveler)
+      expect(booked_trip.traveler).to eq(traveler)
+    end
   end
 end
