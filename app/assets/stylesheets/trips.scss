@@ -1,0 +1,18 @@
+// Place all the styles related to the trips controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.trips-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.trips-table th,
+.trips-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.trips-table th {
+  background-color: #f9f9f9;
+}
