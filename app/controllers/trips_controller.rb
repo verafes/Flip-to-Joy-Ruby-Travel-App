@@ -1,5 +1,6 @@
 class TripsController < ApplicationController
-
+  before_action :set_trip, only: [:show, :edit, :update, :destroy]
+  
   # GET /trips
   def index
     @trips = Trip.all
@@ -17,20 +18,42 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @trip.user = current_user
-  if @trip.save
-    redirect_to @trip, notice: "Trip was successfully created."
-  else
-    render :new, status: :unprocessable_entity
-  end
+
+    respond_to do |format|
+      if @trip.save
+        format.html { redirect_to @trip, notice: "Trip was successfully created." }
+        format.json { render :show, status: :created, location: @trip }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @trip.errors, status: :unprocessable_entity }
+      end
+    end  
   end
 
   def edit
+    @trip = Trip.find(params[:id])
   end
 
   def update
+    @trip = Trip.find(params[:id])
+     respond_to do |format|
+      if @trip.update(trip_params)
+        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+        format.json { render :show, status: :ok, location: @trip }
+      else
+        format.html { render :edit }
+        format.json { render json: @trip.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
+    @trip = Trip.find(params[:id])
+    @trip.destroy
+    respond_to do |format|
+      format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private

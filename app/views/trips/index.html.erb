@@ -26,10 +26,9 @@
         <td><%= trip.maximum_person %></td>
         <td><%= trip.booking_deadline %></td>
         <td><%= trip.is_recurring_schedule %></td>
-        <br>
         <td><%= link_to 'Show', trip %></td>
         <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-        <td><%= link_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Destroy', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -10,3 +10,19 @@
  */
 /* Import trips styles */ 
 @import "trips";
+
+.trips-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.trips-table th,
+.trips-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.trips-table th {
+  background-color: #f9f9f9;
+}
