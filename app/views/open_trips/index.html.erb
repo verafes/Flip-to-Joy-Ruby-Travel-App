@@ -1,0 +1,17 @@
+<h1>Open Trips</h1>
+
+<%= form_with url: open_trips_path, method: :get, local: true do |f| %>
+  <%= f.label :q, "Search by destination:" %>
+  <%= f.text_field :q, value: params[:q] %>
+  <%= f.submit "Search" %>
+<% end %>
+
+<ul>
+  <% @open_trips.each do |trip| %>
+    <li>
+      <%= link_to trip.destination, trip_path(trip) %>
+      - <%= trip.meeting_point %>
+      - <%= trip.start_time.strftime("%b %d, %Y %H:%M") %>
+    </li>
+  <% end %>
+</ul>
