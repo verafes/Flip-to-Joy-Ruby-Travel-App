@@ -1,0 +1,62 @@
+<%= form_with(model: trip, local: true) do |form| %>
+  <% if trip.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
+
+      <ul>
+        <% trip.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :destination %>
+    <%= form.text_field :destination %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_time %>
+    <%= form.datetime_select :start_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_time %>
+    <%= form.datetime_select :end_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :minimum_person %>
+    <%= form.number_field :minimum_person %>
+  </div>
+
+  <div class="field">
+    <%= form.label :maximum_person %>
+    <%= form.number_field :maximum_person %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meeting_point %>
+    <%= form.text_field :meeting_point %>
+  </div>
+
+  <div class="field">
+    <%= form.label :booking_deadline %>
+    <%= form.datetime_select :booking_deadline %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, step: 0.01 %>
+    </div>
+
+  <div class="field">
+    <%= form.label :is_recurring_schedule %>
+    <%= form.check_box :is_recurring_schedule %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
