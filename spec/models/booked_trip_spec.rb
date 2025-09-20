@@ -33,12 +33,6 @@ RSpec.describe BookedTrip, type: :model do
     )
   end
 
-  after(:each) do
-    BookedTrip.delete_all
-    Trip.delete_all
-    User.delete_all
-  end
-
   describe 'validations' do
     it 'is valid with a trip and traveler' do
       booked_trip = BookedTrip.new(trip: trip, traveler: traveler)
