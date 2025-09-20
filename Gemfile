@@ -56,4 +56,9 @@ group :development do
   gem "web-console"
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 7.0.0'
+  gem 'faker'
+end
+
 gem "devise" 
