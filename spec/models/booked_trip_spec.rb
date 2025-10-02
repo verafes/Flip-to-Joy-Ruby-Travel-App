@@ -27,8 +27,8 @@ RSpec.describe BookedTrip, type: :model do
       user: agent,
       destination: 'Paris',
       meeting_point: 'Airport',
-      minimum_person: 1,
-      maximum_person: 3,
+      minimum_persons: 1,
+      maximum_persons: 3,
       price: 100.0
     )
   end

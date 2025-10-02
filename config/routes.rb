@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :trips
   resources :booked_trips
-  resources :users, only: [:index, :show, :edit, :update, :destroy]
+  # resources :users, only: [:index, :show, :edit, :update, :destroy]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

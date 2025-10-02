@@ -72,8 +72,8 @@ class TripsController < ApplicationController
   def trip_params
     params.require(:trip).permit(
       :destination, :description, :meeting_point,
-        :start_time, :end_time, :minimum_person, :maximum_person,
+        :start_time, :end_time, :minimum_persons, :maximum_persons,
         :booking_deadline, :is_recurring_schedule, :price
-      ).merge(user_id: current_user&.id)
+      )
   end
 end

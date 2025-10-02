@@ -23,20 +23,20 @@ RSpec.describe Trip, type: :model do
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 2,
-        maximum_person: 5,
+        minimum_persons: 2,
+        maximum_persons: 5,
         price: 150.0
       )
       expect(trip).to be_valid
     end
 
-    it 'is valid when minimum_person is exactly 1' do
+    it 'is valid when minimum_persons is exactly 1' do
       trip = Trip.new(
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 1,
-        maximum_person: 3,
+        minimum_persons: 1,
+        maximum_persons: 3,
         price: 500
       )
       expect(trip).to be_valid
@@ -47,8 +47,8 @@ RSpec.describe Trip, type: :model do
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 2,
-        maximum_person: 2,
+        minimum_persons: 2,
+        maximum_persons: 2,
         price: 500
       )
       expect(trip).to be_valid
@@ -59,8 +59,8 @@ RSpec.describe Trip, type: :model do
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 1,
-        maximum_person: 2,
+        minimum_persons: 1,
+        maximum_persons: 2,
         price: 0
       )
       expect(trip).to be_valid
@@ -70,8 +70,8 @@ RSpec.describe Trip, type: :model do
       trip = Trip.new(
         user: agent,
         meeting_point: 'Airport',
-        minimum_person: 2,
-        maximum_person: 5,
+        minimum_persons: 2,
+        maximum_persons: 5,
         price: 150.0
       )
       trip.validate
@@ -82,8 +82,8 @@ RSpec.describe Trip, type: :model do
       trip = Trip.new(
         destination: 'Barcelona',
         meeting_point: 'Shibuya Station',
-        minimum_person: 1,
-        maximum_person: 2,
+        minimum_persons: 1,
+        maximum_persons: 2,
         price: 500
       )
       expect(trip).not_to be_valid
@@ -95,25 +95,25 @@ RSpec.describe Trip, type: :model do
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 1,
-        maximum_person: 3,
+        minimum_persons: 1,
+        maximum_persons: 3,
         price: 'abc'
       )
       expect(trip).not_to be_valid
       expect(trip.errors[:price]).to include("is not a number")
     end
 
-    it 'is invalid when minimum_person is not an integer' do
+    it 'is invalid when minimum_persons is not an integer' do
       trip = Trip.new(
         user: agent,
         destination: 'Barcelona',
         meeting_point: 'Airport',
-        minimum_person: 'two',
-        maximum_person: 3,
+        minimum_persons: 'two',
+        maximum_persons: 3,
         price: 100
       )
       expect(trip).not_to be_valid
-      expect(trip.errors[:minimum_person]).to include("is not a number")
+      expect(trip.errors[:minimum_persons]).to include("is not a number")
     end
   end
 end

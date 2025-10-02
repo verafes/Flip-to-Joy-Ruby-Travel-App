@@ -1,0 +1,2 @@
+module Trips::BookedTripsHelper
+end

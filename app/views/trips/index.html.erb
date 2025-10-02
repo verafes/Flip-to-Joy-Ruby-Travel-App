@@ -22,8 +22,8 @@
         <td><%= trip.destination %></td>
         <td><%= trip.start_time %></td>
         <td><%= trip.end_time %></td>
-        <td><%= trip.minimum_person %></td>
-        <td><%= trip.maximum_person %></td>
+        <td><%= trip.minimum_persons %></td>
+        <td><%= trip.maximum_persons %></td>
         <td><%= trip.booking_deadline %></td>
         <td><%= trip.is_recurring_schedule %></td>
         <td><%= link_to 'Show', trip %></td>
@@ -37,4 +37,4 @@
 <br>
 
 <%= link_to 'New Trip', new_trip_path %>
-<%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
