@@ -6,12 +6,16 @@
   <%= f.submit "Search" %>
 <% end %>
 
-<ul>
-  <% @open_trips.each do |trip| %>
-    <li>
-      <%= link_to trip.destination, trip_path(trip) %>
-      - <%= trip.meeting_point %>
-      - <%= trip.start_time.strftime("%b %d, %Y %H:%M") %>
-    </li>
-  <% end %>
-</ul>
+<% if @open_trips.any? %>
+  <ul>
+    <% @open_trips.each do |trip| %>
+      <li>
+        <%= link_to trip.destination, trip_path(trip) %>
+        - <%= trip.meeting_point %>
+        - <%= trip.start_time.strftime("%b %d, %Y %H:%M") %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No trips found matching your search.</p>
+<% end %>

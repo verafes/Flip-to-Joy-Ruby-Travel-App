@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_03_051654) do
   create_table "booked_trips", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "trip_id", null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "price"
+    t.integer "status", default: 0, null: false
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
 

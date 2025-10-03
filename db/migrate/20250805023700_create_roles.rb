@@ -1,5 +1,9 @@
-class AddRoleToUsers < ActiveRecord::Migration[8.0]
+class CreateRoles < ActiveRecord::Migration[8.0]
   def change
-    add_reference :users, :role, null: false, foreign_key: true
+    create_table :roles do |t|
+      t.string :name
+
+      t.timestamps
+    end
   end
 end

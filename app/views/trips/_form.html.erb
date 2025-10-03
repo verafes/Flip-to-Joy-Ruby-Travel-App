@@ -56,6 +56,10 @@
     <%= form.check_box :is_recurring_schedule %>
   </div>
 
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, Trip.statuses.keys.map { |s| [s.titleize, s] }, selected: trip.status %>
+  </div>
   <div class="actions">
     <%= form.submit %>
   </div>

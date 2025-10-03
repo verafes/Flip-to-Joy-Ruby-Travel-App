@@ -5,7 +5,11 @@ class TripsController < ApplicationController
 
   # GET /trips
   def index
-    @trips = Trip.all
+    if current_user.is_travel_agent?
+      @trips = current_user.trips.order(start_time: :asc)
+    else
+      @trips = Trip.available.order(start_time: :asc)
+    end
   end
 
   # GET /trips/1
@@ -73,7 +77,7 @@ class TripsController < ApplicationController
     params.require(:trip).permit(
       :destination, :description, :meeting_point,
         :start_time, :end_time, :minimum_persons, :maximum_persons,
-        :booking_deadline, :is_recurring_schedule, :price
+        :booking_deadline, :is_recurring_schedule, :price, :status
       )
   end
 end
