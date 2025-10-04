@@ -4,9 +4,11 @@ class Trips::BookedTripsController < ApplicationController
   def create
     booked_trip = BookedTrip.new(booking_params)
     if booked_trip.save!
-      redirect_to root_path
+      redirect_to my_trips_trips_path, notice: "Trip successfully booked!"
     else
-      render 'open_trips/index'
+      flash.now[:alert] = "Booking failed: #{booked_trip.errors.full_messages.to_sentence}"
+      @trips = Trip.available.order(start_time: :asc)
+      render 'open_trips/index', status: :unprocessable_entity
     end
   end
 

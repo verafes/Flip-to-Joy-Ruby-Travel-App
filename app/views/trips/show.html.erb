@@ -11,20 +11,25 @@
   <strong>End time:</strong>
   <%= @trip.end_time %>
 </p>
-
+<% if current_user&.is_travel_agent? %>
 <p>
   <strong>Minimum person:</strong>
   <%= @trip.minimum_persons %>
 </p>
 
 <p>
+  <strong>Maximum person:</strong>
+  <%= @trip.maximum_persons %>
+</p>
+<% end %>
+<p>
   <strong>Meeting point:</strong>
   <%= @trip.meeting_point %>
 </p>
 
 <p>
-  <strong>Maximum person:</strong>
-  <%= @trip.maximum_persons %>
+  <strong>Price:</strong>
+  <%= number_to_currency(@trip.price) %>
 </p>
 
 <p>
@@ -37,5 +42,20 @@
   <%= @trip.is_recurring_schedule %>
 </p>
 
-<%= link_to 'Edit', edit_trip_path(@trip) %> |
-<%= link_to 'Back', trips_path %>
+<% if current_user&.is_travel_agent? %>
+  <%= link_to 'Edit', edit_trip_path(@trip) %> |
+<% end %>
+<% if current_user&.is_traveler? %>
+  <% if @already_booked %>
+    <p>✅ <strong>You have already booked this trip.</strong></p>
+  <% elsif @trip.open_for_booking? %>
+    <%= button_to 'Book this Trip', trip_booked_trips_path(@trip), params: { trip_id: @trip.id }, method: :post %>
+  <% else %>
+    <p><strong>Booking Closed</strong></p> |
+  <% end %>
+ <% end %>  
+<% if current_user&.is_travel_agent? %>
+  <%= link_to 'Back', trips_path %>
+<% elsif current_user&.is_traveler? %>
+  <%= link_to 'Back to Available Trips', open_trips_path %>
+<% end %>

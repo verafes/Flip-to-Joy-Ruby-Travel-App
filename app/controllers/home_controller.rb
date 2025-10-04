@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   before_action :restrict_this_page
   def index
-    @trips = Trip.all
+    @trips = Trip.available
   end
 
   private

@@ -3,7 +3,7 @@ class Trip < ApplicationRecord
   has_many :booked_trips
   has_many :travelers, through: :booked_trips, source: :traveler
 
-  enum status: { 
+  enum :status, { 
     open: 0, 
     closed: 1, 
     past: 2 

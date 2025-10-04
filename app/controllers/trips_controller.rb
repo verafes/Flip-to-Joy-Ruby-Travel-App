@@ -14,6 +14,11 @@ class TripsController < ApplicationController
 
   # GET /trips/1
   def show
+    if current_user&.is_traveler?
+      @already_booked = BookedTrip.exists?(trip: @trip, traveler: current_user)
+    else
+      @already_booked = false
+    end
   end
 
   def new
@@ -59,6 +64,11 @@ class TripsController < ApplicationController
       format.html { redirect_to trips_url, notice: "Trip was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  # GET /trips/my_trips
+  def my_trips
+    @my_trips = current_user.booked_trips.order(created_at: :desc)
   end
 
   private
