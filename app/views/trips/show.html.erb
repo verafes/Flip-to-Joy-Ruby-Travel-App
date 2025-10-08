@@ -46,8 +46,13 @@
   <%= link_to 'Edit', edit_trip_path(@trip) %> |
 <% end %>
 <% if current_user&.is_traveler? %>
-  <% if @already_booked %>
-    <p>✅ <strong>You have already booked this trip.</strong></p>
+  <% if @booked_trip.present
+    <p>✅ <strong>You have already booked this trip.</strong></p> %>
+    <% if booked_trip.paid? %>
+      <p>✅ Payment Completed</p>
+    <% else %>
+      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: booked_trip.id), class: "button" %>
+    <% end %>  
   <% elsif @trip.open_for_booking? %>
     <%= button_to 'Book this Trip', trip_booked_trips_path(@trip), params: { trip_id: @trip.id }, method: :post %>
   <% else %>

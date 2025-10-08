@@ -2,6 +2,7 @@ class Trip < ApplicationRecord
   belongs_to :user # travel agent who created the trip
   has_many :booked_trips
   has_many :travelers, through: :booked_trips, source: :traveler
+  has_many :payments, through: :booked_trips
 
   enum :status, { 
     open: 0, 

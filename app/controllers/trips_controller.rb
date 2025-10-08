@@ -15,9 +15,9 @@ class TripsController < ApplicationController
   # GET /trips/1
   def show
     if current_user&.is_traveler?
-      @already_booked = BookedTrip.exists?(trip: @trip, traveler: current_user)
+      @booked_trip = @trip.booked_trips.find_by(traveler: current_user)
     else
-      @already_booked = false
+      @booked_trip = nil
     end
   end
 
