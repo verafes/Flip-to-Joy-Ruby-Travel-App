@@ -21,13 +21,13 @@
     <% @trips.each do |trip| %>
       <tr>
         <td><%= trip.destination %></td>
-        <td><%= trip.start_time %></td>
-        <td><%= trip.end_time %></td>
+        <td><%= format_datetime(trip.start_time) %></td>
+        <td><%= format_datetime(trip.end_time) %></td>
         <% if current_user&.is_travel_agent? %>
           <td><%= trip.minimum_persons %></td>
           <td><%= trip.maximum_persons %></td>
         <% end %>
-        <td><%= trip.booking_deadline %></td>
+        <td><%= format_datetime(trip.booking_deadline) %></td>
         <td><%= trip.is_recurring_schedule %></td>
         <td><%= trip.status %></td>
         <td><%= link_to 'Show', trip %></td>

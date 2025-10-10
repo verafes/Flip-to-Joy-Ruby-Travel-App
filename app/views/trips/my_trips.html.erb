@@ -14,8 +14,8 @@
       <% @my_trips.each do |my_trip| %>
         <tr>
           <td><%= my_trip.trip.destination %></td>
-          <td><%= my_trip.trip.start_time.strftime("%b %d, %Y %H:%M") %></td>
-          <td><%= my_trip.trip.end_time.strftime("%b %d, %Y %H:%M") %></td>
+          <td><%= format_datetime(my_trip.trip.start_time) %></td>
+          <td><%= format_datetime(my_trip.trip.end_time) %></td>
           <td><%= my_trip.trip.meeting_point %></td>
   
           <td><%= link_to 'View Trip', trip_path(my_trip.trip) %></td>

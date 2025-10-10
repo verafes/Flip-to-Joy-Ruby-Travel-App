@@ -4,12 +4,12 @@
 
 <p>
   <strong>Start time:</strong>
-  <%= @trip.start_time %>
+  <%= format_datetime(@trip.start_time)   %>
 </p>
 
 <p>
   <strong>End time:</strong>
-  <%= @trip.end_time %>
+  <%= format_datetime(@trip.end_time)  %>
 </p>
 <% if current_user&.is_travel_agent? %>
 <p>
@@ -34,7 +34,7 @@
 
 <p>
   <strong>Last booking time:</strong>
-  <%= @trip.booking_deadline %>
+  <%= format_datetime(@trip.booking_deadline)  %>
 </p>
 
 <p>
@@ -45,20 +45,24 @@
 <% if current_user&.is_travel_agent? %>
   <%= link_to 'Edit', edit_trip_path(@trip) %> |
 <% end %>
+
 <% if current_user&.is_traveler? %>
-  <% if @booked_trip.present
-    <p>✅ <strong>You have already booked this trip.</strong></p> %>
-    <% if booked_trip.paid? %>
-      <p>✅ Payment Completed</p>
+  <% if @booked_trip.present? %>
+    <p><strong>You have already booked this trip.</strong></p>
+
+    <% if @booked_trip.paid? %>
+      <p>Payment Completed</p>
     <% else %>
-      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: booked_trip.id), class: "button" %>
-    <% end %>  
+      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button" %>
+    <% end %>
+
   <% elsif @trip.open_for_booking? %>
     <%= button_to 'Book this Trip', trip_booked_trips_path(@trip), params: { trip_id: @trip.id }, method: :post %>
   <% else %>
     <p><strong>Booking Closed</strong></p> |
   <% end %>
- <% end %>  
+<% end %>
+
 <% if current_user&.is_travel_agent? %>
   <%= link_to 'Back', trips_path %>
 <% elsif current_user&.is_traveler? %>

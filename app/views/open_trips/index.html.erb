@@ -18,7 +18,7 @@
       <li>
         <%= link_to trip.destination, trip_path(trip) %>
         - <%= trip.meeting_point %>
-        - <%= trip.start_time.strftime("%b %d, %Y %H:%M") %>
+        - <%= format_datetime(trip.start_time) %>
       </li>
     <% end %>
   </ul>
