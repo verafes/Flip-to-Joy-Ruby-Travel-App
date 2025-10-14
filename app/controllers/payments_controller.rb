@@ -15,9 +15,11 @@ class PaymentsController < ApplicationController
       # to do: integrate a payment gateway (Stripe, PayPal, etc.)
       # for testing, mark it as completed immediately
       @payment.update(status: :completed, paid_at: Time.current)
-      redirect_to booked_trip_path(@booked_trip), notice: "Payment successful!"
+      format.html { redirect_to trip_path(@booked_trip.trip), notice: "Payment completed!" }
+      format.json { render json: @payment, status: :created }
     else
-      render :new, alert: "Payment failed"
+      format.html { flash.now[:alert] = "Payment failed"; render :new }
+      format.json { render json: @payment.errors, status: :unprocessable_entity }
     end
   end
 

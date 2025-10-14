@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
           registrations: 'users/registrations',
-          sessions: 'users/sessions'
         }
 
   get "trips/open", to: "open_trips#index", as: :open_trips

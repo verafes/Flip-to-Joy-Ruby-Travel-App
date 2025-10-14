@@ -2,6 +2,10 @@ class Users::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
   respond_to :json
 
+  def new
+    super
+  end
+
   private
 
   def respond_with(resource, _opts = {})

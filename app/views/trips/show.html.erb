@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
-
+<% if flash[:success] %>
+  <p style="color: green; font-weight: bold;"><%= flash[:success] %></p>
+<% end %>
 <h1><%= @trip.destination %></h1>
 
 <p>
@@ -37,10 +39,12 @@
   <%= format_datetime(@trip.booking_deadline)  %>
 </p>
 
-<p>
-  <strong>Is recurring schedule:</strong>
-  <%= @trip.is_recurring_schedule %>
-</p>
+<% if current_user&.is_travel_agent? %>
+  <p>
+    <strong>Is recurring schedule:</strong>
+    <%= @trip.is_recurring_schedule %>
+  </p>
+<% end %>
 
 <% if current_user&.is_travel_agent? %>
   <%= link_to 'Edit', edit_trip_path(@trip) %> |
@@ -48,11 +52,16 @@
 
 <% if current_user&.is_traveler? %>
   <% if @booked_trip.present? %>
-    <p><strong>You have already booked this trip.</strong></p>
 
     <% if @booked_trip.paid? %>
-      <p>Payment Completed</p>
+      <div>
+        <span class="badge-paid">✅ Paid</span>
+      </div>
+    <% elsif @booked_trip.payment_failed? %>
+      <span class="badge-failed">❌ Payment Failed</span>
     <% else %>
+      <span class="badge-pending">Pending payment</span>
+      <br>
       <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button" %>
     <% end %>
 

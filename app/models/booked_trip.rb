@@ -8,7 +8,20 @@ class BookedTrip < ApplicationRecord
       paid: 1,
       cancelled: 2
     }
-  
+  attribute :status, :integer, default: 0
+
   validates :trip_id, uniqueness: { scope: :user_id, 
                                     message: "You have already booked this trip." }
+
+  def paid?
+    super || payments.where(status: :completed).exists?
+  end
+
+  def payment_failed?
+    payments.failed.exists?
+  end
+
+  def pending_payment?
+    !paid? && !payment_failed? && !cancelled?
+  end
 end

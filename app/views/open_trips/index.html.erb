@@ -1,10 +1,6 @@
 <h1>Open Trips</h1>
 
-<% flash.each do |key, value| %>
-  <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
-    <%= value %>
-  </div>
-<% end %>
+
 
 <%= form_with url: open_trips_path, method: :get, local: true do |f| %>
   <%= f.label :q, "Search by destination:" %>
@@ -16,13 +12,39 @@
   <ul>
     <% @trips.each do |trip| %>
       <li>
-        <%= link_to trip.destination, trip_path(trip) %>
+        <strong><%= link_to trip.destination, trip_path(trip) %></strong>
         - <%= trip.meeting_point %>
         - <%= format_datetime(trip.start_time) %>
+
+        <% if current_user&.is_traveler? %>
+          <% booked = @booked_trips[trip.id] %>
+          <% if booked.present? %>
+
+            <% if booked.paid? %>
+              <span class="badge-paid">✅ Paid</span>
+            <% elsif booked.pending_payment? %>
+              <span class="badge-pending">Pending Payment</span>
+            <% elsif booked.payment_failed? %>
+              <span class="badge-failed">❌ Payment Failed</span>
+            <% elsif booked.cancelled? %>
+              <span class="badge-failed">❌ Cancelled</span>
+            <% end %>
+          <% else %>
+            <% if trip.open_for_booking? %>
+              <span class="badge-open">Open for Booking</span>
+            <% else %>
+              <span class="badge-closed">- Booking Closed</span>
+            <% end %>
+          <% end %>
+        <% end %>
       </li>
     <% end %>
   </ul>
 <% else %>
-  <p>No trips found matching your search.</p>
+  <p>No trips available.</p>
 <% end %>
+
+<div class="actions">
+<%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
 <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+</div>

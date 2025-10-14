@@ -22,8 +22,10 @@
   </head>
 
   <body>
-      <% if flash[:alert].present? %>
-      <p class="my_alert"><%= flash[:alert] %></p>
+    <% flash.each do |key, message| %>
+      <div class="flash <%= flash_class(key) %>">
+        <%= message %>
+      </div>
     <% end %>
     <%= yield %>
   </body>
