@@ -33,6 +33,8 @@
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
+    /*text-align: left;*/
+    margin-right: auto;
 }
 
 .flash-success {
@@ -43,7 +45,7 @@
 
 .flash-danger {
     background-color: #f8d7da;
-    color: #721c24;
+    color: #ac1a25;
     border: 1px solid #f5c6cb;
 }
 
@@ -53,43 +55,46 @@
     border: 1px solid #bee5eb;
 }
 
-.badge-paid {
-    display: inline-block;
-    padding: 3px 8px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #155724;
-    background-color: #d4edda;
-    border: 1px solid green;
-    border-radius: 4px;
-    margin-left: 5px;
-    margin-bottom: 10px;
+.flash ul {
+    list-style-type: disc;
+    display: block;
+    text-align: left;
+    width: fit-content;
 }
 
+.badge-paid,
+.badge-pending,
+.badge-cancelled,
+.badge-open,
+.badge-closed,
+.badge-past,
 .badge-failed {
     display: inline-block;
     padding: 3px 8px;
     font-size: 14px;
     font-weight: bold;
-    color: #721c24;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
     border-radius: 4px;
     margin-left: 5px;
     margin-bottom: 10px;
+    border: 1px solid;
+}
+
+.badge-paid {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.badge-failed {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
 
 .badge-pending {
-    display: inline-block;
-    padding: 3px 8px;
-    font-size: 14px;
-    font-weight: bold;
     color: #856404;
     background-color: #fff3cd;
-    border: 1px solid #ffeeba;
-    border-radius: 4px;
-    margin-left: 5px;
-    margin-bottom: 10px;
+    border-color: #ffeeba;
 }
 
 .badge-paid {
@@ -97,13 +102,7 @@
     color: #155724;
     padding: 3px 8px;
     border-radius: 4px;
-}
-
-.badge-pending {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 3px 8px;
-    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .badge-cancelled {
@@ -111,18 +110,23 @@
     color: #721c24;
     padding: 3px 8px;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .badge-open {
-    background-color: #d1ecf1;
     color: #0c5460;
-    padding: 3px 8px;
-    border-radius: 4px;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
 }
 
 .badge-closed {
     background-color: #f5c6cb;
-    color: #721c24;
-    padding: 3px 8px;
-    border-radius: 4px;
+    color: #ac1a25;
+    border-color: #d6d8db;
+}
+
+.badge-past {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
 }

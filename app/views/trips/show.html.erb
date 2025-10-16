@@ -73,7 +73,9 @@
 <% end %>
 
 <% if current_user&.is_travel_agent? %>
-  <%= link_to 'Back', trips_path %>
+  <%= link_to 'Back to Trips', trips_path %>
+  <%= link_to 'Open Trips', open_trips_path %>
 <% elsif current_user&.is_traveler? %>
+  <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
   <%= link_to 'Back to Available Trips', open_trips_path %>
 <% end %>

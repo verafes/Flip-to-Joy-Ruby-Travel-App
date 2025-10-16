@@ -26,4 +26,4 @@
 <% else %>
   <p>You have not booked any trips yet.</p>
 <% end %>
-<%= link_to 'Back to Available Trips', open_trips_path %>
+<%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path %>

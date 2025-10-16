@@ -13,9 +13,9 @@ class Trip < ApplicationRecord
 
   validates :destination, presence: true
   validates :meeting_point, presence: true
-  validates :minimum_persons, numericality: { only_integer: true, greater_than: 0 }
-  validates :maximum_persons, numericality: { only_integer: true, greater_than_or_equal_to: :minimum_persons }
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :minimum_persons, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :maximum_persons, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: :minimum_persons }
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def open_for_booking?
     open? && (booking_deadline.nil? || booking_deadline >= Date.today)
@@ -23,5 +23,13 @@ class Trip < ApplicationRecord
 
   def mark_past!
     update(status: :past) if start_time < Date.today
+  end
+
+  def update_status_if_full!
+    if booked_trips.count >= maximum_persons
+      update(status: :closed) unless closed?
+    elsif closed? && booked_trips.count < maximum_persons
+      update(status: :open)
+    end
   end
 end

@@ -1,8 +1,13 @@
 class OpenTripsController < ApplicationController
-  before_action :authenticate_user!
+
 
   def index
-    @trips = Trip.all.order(start_time: :asc)
+    if user_signed_in? && current_user.is_travel_agent?
+      @trips = Trip.all.order(start_time: :asc)
+    else
+      @trips = Trip.available.order(start_time: :asc)
+    end
+
     if params[:q].present?
       @trips = @trips.where("LOWER(destination) LIKE ?", "#{params[:q].downcase}%")
       if @trips.any?
@@ -12,7 +17,7 @@ class OpenTripsController < ApplicationController
       end
     end
 
-    if current_user&.is_traveler?
+    if user_signed_in? &&  current_user&.is_traveler?
       @booked_trips = current_user.booked_trips.where(trip_id: @trips.map(&:id)).index_by(&:trip_id)
     else
       @booked_trips = {}

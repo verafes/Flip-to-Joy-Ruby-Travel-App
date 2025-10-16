@@ -5,10 +5,17 @@ class TripsController < ApplicationController
 
   # GET /trips
   def index
+    @trips = Trip.available.order(start_time: :asc)
     if current_user.is_travel_agent?
-      @trips = current_user.trips.order(start_time: :asc)
+      @trips = current_user.trips
+                   .includes(booked_trips: :traveler)
+                   .order(start_time: :asc)
     else
-      @trips = Trip.available.order(start_time: :asc)
+      @trips = Trip.available
+                   .or(Trip.joins(:booked_trips).where(booked_trips: { user_id: current_user.id }))
+                   .distinct
+                    order(start_time: :asc)
+      @booked_trips = current_user.booked_trips.includes(:trip).index_by(&:trip_id)
     end
   end
 
