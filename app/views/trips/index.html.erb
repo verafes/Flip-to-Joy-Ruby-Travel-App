@@ -5,6 +5,7 @@
 <table class="trips-table">
   <thead>
     <tr>
+      <th>Image</th>
       <th>Destination</th>
       <th>Start time</th>
       <th>End time</th>
@@ -20,6 +21,13 @@
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
+       <td>
+          <% if trip.image.present? %>
+            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+          <% else %>
+            <span class="no-image">No Image</span>
+          <% end %>
+        </td>
         <td><%= trip.destination %></td>
         <td><%= format_datetime(trip.start_time) %></td>
         <td><%= format_datetime(trip.end_time) %></td>
@@ -28,7 +36,7 @@
           <td><%= trip.maximum_persons %></td>
         <% end %>
         <td><%= format_datetime(trip.booking_deadline) %></td>
-        <td><%= trip.is_recurring_schedule %></td>
+        <td><%= trip.is_recurring_schedule ? 'Yes' : 'No' %></td>
         <td><%= trip.status %></td>
         <td><%= link_to 'Show', trip %></td>
         <% if current_user&.is_travel_agent? %>
@@ -45,7 +53,7 @@
 
 <br>
 <% if current_user&.is_travel_agent? %>
-  <%= link_to 'New Trip', new_trip_path %> |
-  <%= link_to 'Back to Available Trips', open_trips_path %> |
+  <%= link_to 'New Trip', new_trip_path, class: "button-primary" %>
+  <%= link_to 'Back to Open Trips', open_trips_path, class: "button-secondary" %>
 <% end %>
-<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>

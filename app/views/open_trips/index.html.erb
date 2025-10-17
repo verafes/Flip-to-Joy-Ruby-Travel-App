@@ -7,60 +7,81 @@
 <% end %>
 
 <% if @trips.any? %>
-  <ul>
+  <div class="trips-grid">
     <% @trips.each do |trip| %>
       <% booked = @booked_trips&.[](trip.id) %>
-      <li>
-        <strong><%= link_to trip.destination, trip_path(trip) %></strong>
-        - <%= trip.meeting_point %>
-        - <%= format_datetime(trip.start_time) %>
-
-        <% if user_signed_in? && current_user&.is_traveler? %>
-          <!-- Traveler view - ONLY show available trips with booking option -->
-          <% if booked.present? %>
-            <% if booked.paid? %>
-              <span class="badge-paid">✅ Paid</span>
-            <% elsif booked.pending_payment? %>
-              <span class="badge-pending">Pending Payment</span>
-            <% elsif booked.payment_failed? %>
-              <span class="badge-failed">❌ Payment Failed</span>
-            <% elsif booked.cancelled? %>
-              <span class="badge-cancelled">❌ Cancelled</span>
-            <% end %>
+      <div class="trip-card">
+        <div class="trip-image">
+          <% if trip.image.present? %>
+            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
           <% else %>
-            <span class="badge-open"> Available</span>
-            <%= link_to "Book Now", trip_booked_trips_path(trip_id: trip.id), method: :post, class: "button-primary" %>
+            <div class="no-image-placeholder">No Image</div>
           <% end %>
+        </div>
+        <div class="trip-content">
+          <h3 class="trip-destination">
+            <%= link_to trip.destination, trip_path(trip) %>
+          </h3>
 
-        <% elsif user_signed_in? && current_user.is_travel_agent? %>
-          <!-- AGENT VIEW -->
-          <% if booked.present? %>
-            <% if booked.paid? %>
-              <span class="badge-paid">✅ Paid</span>
-            <% elsif booked.pending_payment? %>
-              <span class="badge-pending">Pending Payment</span>
-            <% elsif booked.payment_failed? %>
-              <span class="badge-failed">❌ Payment Failed</span>
-            <% elsif booked.cancelled? %>
-              <span class="badge-cancelled">❌ Cancelled</span>
-            <% end %>
+          <div class="trip-details">
+            <div class="trip-detail">
+              <span class="detail-label">Meeting point:</span>
+              <span class="detail-value"><%= trip.meeting_point %></span>
+            </div>
+            <div class="trip-detail">
+              <span class="detail-label">When:</span>
+              <span class="detail-value"><%= format_datetime(trip.start_time) %></span>
+            </div>
+          </div>
+          <div class="trip-status">
+            <% if user_signed_in? && current_user&.is_traveler? %>
+              <!-- Traveler view - ONLY show available trips with booking option -->
+              <% if booked.present? %>
+                <% if booked.paid? %>
+                  <span class="badge-paid">✅ Paid</span>
+                <% elsif booked.pending_payment? %>
+                  <span class="badge-pending">Pending Payment</span>
+                <% elsif booked.payment_failed? %>
+                  <span class="badge-failed">❌ Payment Failed</span>
+                <% elsif booked.cancelled? %>
+                  <span class="badge-cancelled">❌ Cancelled</span>
+                <% end %>
+              <% else %>
+                <span class="badge-open"> Available</span>
+                <%= link_to "Book Now", trip_booked_trips_path(trip_id: trip.id), method: :post, class: "button-primary" %>
+              <% end %>
 
-          <% else %>
-            <% if trip.open_for_booking? %>
-              <span class="badge-open">Open for Booking</span>
-            <% elsif trip.closed? %>
-              <span class="badge-closed">Booking Closed</span>
-            <% elsif trip.past? %>
-              <span class="badge-past">Past</span>
+            <% elsif user_signed_in? && current_user.is_travel_agent? %>
+              <!-- AGENT VIEW -->
+              <% if booked.present? %>
+                <% if booked.paid? %>
+                  <span class="badge-paid">✅ Paid</span>
+                <% elsif booked.pending_payment? %>
+                  <span class="badge-pending">Pending Payment</span>
+                <% elsif booked.payment_failed? %>
+                  <span class="badge-failed">❌ Payment Failed</span>
+                <% elsif booked.cancelled? %>
+                  <span class="badge-cancelled">❌ Cancelled</span>
+                <% end %>
+
+              <% else %>
+                <% if trip.open_for_booking? %>
+                  <span class="badge-open">Open for Booking</span>
+                <% elsif trip.closed? %>
+                  <span class="badge-closed">Booking Closed</span>
+                <% elsif trip.past? %>
+                  <span class="badge-past">Past</span>
+                <% end %>
+              <% end %>
+            <% else %>
+              <span class="badge-open">Available</span>
+              <%= link_to "Sign in to Book", new_user_session_path, class: "button-primary" %>
             <% end %>
-          <% end %>
-        <% else %>
-          <span class="badge-open">Available</span>
-          <%= link_to "Sign in to Book", new_user_session_path, class: "button-primary" %>
-        <% end %>
-      </li>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
   <p>No trips available.</p>
 <% end %>
@@ -69,9 +90,9 @@
   <% if user_signed_in? %>
     <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
     <% if current_user&.is_travel_agent? %>
-      <%= link_to 'Back to Trips', trips_path %>
+      <%= link_to 'Back to Trips', trips_path, class: "button-primary" %>
     <% end %>
-    <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+    <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>
   <% else %>
       <%= link_to 'Sign In', new_user_session_path, class: "button-secondary" %>
       <%= link_to 'Sign Up', new_user_registration_path, class: "button-secondary" %>

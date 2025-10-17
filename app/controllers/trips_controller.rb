@@ -94,7 +94,8 @@ class TripsController < ApplicationController
     params.require(:trip).permit(
       :destination, :description, :meeting_point,
         :start_time, :end_time, :minimum_persons, :maximum_persons,
-        :booking_deadline, :is_recurring_schedule, :price, :status
+        :booking_deadline, :is_recurring_schedule, :price, :status,
+        :image
       )
   end
 end

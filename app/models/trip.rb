@@ -17,6 +17,8 @@ class Trip < ApplicationRecord
   validates :maximum_persons, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: :minimum_persons }
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
+  mount_uploader :image, ImageUploader
+
   def open_for_booking?
     open? && (booking_deadline.nil? || booking_deadline >= Date.today)
   end

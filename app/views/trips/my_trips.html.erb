@@ -3,6 +3,7 @@
   <table>
     <thead>
       <tr>
+        <th>Image</th>
         <th>Destination</th>
         <th>Start Time</th>
         <th>End Time</th>
@@ -13,6 +14,13 @@
     <tbody>
       <% @my_trips.each do |my_trip| %>
         <tr>
+          <td>
+            <% if my_trip.trip.image.present? %>
+              <%= image_tag my_trip.trip.image.url, class: "trip-thumbnail" %>
+            <% else %>
+              <span class="no-image">No Image</span>
+            <% end %>
+          </td>
           <td><%= my_trip.trip.destination %></td>
           <td><%= format_datetime(my_trip.trip.start_time) %></td>
           <td><%= format_datetime(my_trip.trip.end_time) %></td>
@@ -26,4 +34,4 @@
 <% else %>
   <p>You have not booked any trips yet.</p>
 <% end %>
-<%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path %>
+<%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path, class: "button-secondary" %>

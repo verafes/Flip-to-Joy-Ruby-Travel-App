@@ -4,6 +4,10 @@
 <% end %>
 <h1><%= @trip.destination %></h1>
 
+<% if @trip.image.present? %>
+  <%= image_tag @trip.image.url, style: "max-width: 300px;" %>
+<% end %>
+
 <p>
   <strong>Start time:</strong>
   <%= format_datetime(@trip.start_time)   %>
@@ -47,7 +51,7 @@
 <% end %>
 
 <% if current_user&.is_travel_agent? %>
-  <%= link_to 'Edit', edit_trip_path(@trip) %> |
+  <%= link_to 'Edit', edit_trip_path(@trip), class: "button-secondary" %>
 <% end %>
 
 <% if current_user&.is_traveler? %>
@@ -73,9 +77,9 @@
 <% end %>
 
 <% if current_user&.is_travel_agent? %>
-  <%= link_to 'Back to Trips', trips_path %>
-  <%= link_to 'Open Trips', open_trips_path %>
+  <%= link_to 'Back to Trips', trips_path, class: "button-primary" %>
+  <%= link_to 'Open Trips', open_trips_path, class: "button-secondary" %>
 <% elsif current_user&.is_traveler? %>
   <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
-  <%= link_to 'Back to Available Trips', open_trips_path %>
+  <%= link_to 'Back to Available Trips', open_trips_path, class: "button-secondary" %>
 <% end %>
