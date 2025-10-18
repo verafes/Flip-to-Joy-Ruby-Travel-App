@@ -48,7 +48,7 @@
                 <% end %>
               <% else %>
                 <span class="badge-open"> Available</span>
-                <%= link_to "Book Now", trip_booked_trips_path(trip_id: trip.id), method: :post, class: "button-primary" %>
+                <%= button_to "Book Now", trip_booked_trips_path(trip_id: trip.id), method: :post, class: "button-primary" %>
               <% end %>
 
             <% elsif user_signed_in? && current_user.is_travel_agent? %>

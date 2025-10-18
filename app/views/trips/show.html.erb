@@ -5,7 +5,9 @@
 <h1><%= @trip.destination %></h1>
 
 <% if @trip.image.present? %>
-  <%= image_tag @trip.image.url, style: "max-width: 300px;" %>
+  <%= image_tag @trip.image.url, sclass: "trip-image trip-thumbnail" %>
+<% else %>
+  <span class="no-image-placeholder">No Image</span>
 <% end %>
 
 <p>
@@ -63,10 +65,11 @@
       </div>
     <% elsif @booked_trip.payment_failed? %>
       <span class="badge-failed">❌ Payment Failed</span>
+
     <% else %>
       <span class="badge-pending">Pending payment</span>
       <br>
-      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button" %>
+      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button-primary" %>
     <% end %>
 
   <% elsif @trip.open_for_booking? %>

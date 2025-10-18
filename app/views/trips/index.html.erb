@@ -23,9 +23,9 @@
       <tr>
        <td>
           <% if trip.image.present? %>
-            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <%= image_tag trip.image.url, class: "trip-image trip-thumbnail" %>
           <% else %>
-            <span class="no-image">No Image</span>
+            <span class="no-image-placeholder">No Image</span>
           <% end %>
         </td>
         <td><%= trip.destination %></td>

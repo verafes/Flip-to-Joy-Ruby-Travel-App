@@ -1,37 +1,43 @@
-<h1>MyTrips</h1>
-<% if @my_trips.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Destination</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Meeting Point</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @my_trips.each do |my_trip| %>
+<% content_for :title, "My Trips - Flip the Trip" %>
+
+<div class="container">
+  <h1>MyTrips</h1>
+  <% if @my_trips.any? %>
+    <table class="trips-table">
+      <thead>
         <tr>
-          <td>
-            <% if my_trip.trip.image.present? %>
-              <%= image_tag my_trip.trip.image.url, class: "trip-thumbnail" %>
-            <% else %>
-              <span class="no-image">No Image</span>
-            <% end %>
-          </td>
-          <td><%= my_trip.trip.destination %></td>
-          <td><%= format_datetime(my_trip.trip.start_time) %></td>
-          <td><%= format_datetime(my_trip.trip.end_time) %></td>
-          <td><%= my_trip.trip.meeting_point %></td>
-  
-          <td><%= link_to 'View Trip', trip_path(my_trip.trip) %></td>
+          <th></th>
+          <th>Destination</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Meeting Point</th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>You have not booked any trips yet.</p>
-<% end %>
-<%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path, class: "button-secondary" %>
+      </thead>
+      <tbody>
+        <% @my_trips.each do |my_trip| %>
+          <tr>
+            <td>
+              <% if my_trip.trip.image.present? %>
+                <%= image_tag my_trip.trip.image.url, class: "trip-image trip-thumbnail" %>
+              <% else %>
+                <span class="no-image-placeholder">No Image</span>
+              <% end %>
+            </td>
+            <td><%= my_trip.trip.destination %></td>
+            <td><%= format_datetime(my_trip.trip.start_time) %></td>
+            <td><%= format_datetime(my_trip.trip.end_time) %></td>
+            <td><%= my_trip.trip.meeting_point %></td>
+
+            <td><%= link_to 'View Trip', trip_path(my_trip.trip) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>You have not booked any trips yet.</p>
+  <% end %>
+  <div class="actions">
+    <%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path, class: "button-secondary" %>
+  </div>
+</div>
