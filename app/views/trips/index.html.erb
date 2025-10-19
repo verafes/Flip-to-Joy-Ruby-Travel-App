@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Trips</h1>
+<h1><%= current_user&.is_travel_agent? ? "Trips" : "Available Trips" %></h1>
 
 <table class="trips-table">
   <thead>
     <tr>
-      <th>Image</th>
+      <th></th>
       <th>Destination</th>
       <th>Start time</th>
       <th>End time</th>
@@ -23,7 +23,7 @@
       <tr>
        <td>
           <% if trip.image.present? %>
-            <%= image_tag trip.image.url, class: "trip-image trip-thumbnail" %>
+            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
           <% else %>
             <span class="no-image-placeholder">No Image</span>
           <% end %>
@@ -41,7 +41,7 @@
         <td><%= link_to 'Show', trip %></td>
         <% if current_user&.is_travel_agent? %>
           <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-          <td><%= button_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= button_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-delete" %></td>
         <% else %>
           <td></td>
           <td></td>

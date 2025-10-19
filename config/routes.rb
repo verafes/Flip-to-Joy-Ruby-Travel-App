@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :trips do
     collection { get :my_trips }
-    resources :booked_trips, only: [:create], controller: 'trips/booked_trips'
+    resources :booked_trips, only: [:create, :destroy], controller: 'trips/booked_trips'
   end
   resources :payments, only: [:new, :create]
   get "up" => "rails/health#show", as: :rails_health_check

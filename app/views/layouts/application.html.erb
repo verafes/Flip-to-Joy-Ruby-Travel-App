@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Flip To Joy Ruby Travel App" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Flip the Joy Ruby Travel App" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -24,14 +24,15 @@
   <body class="app-layout">
     <header class="main-header">
       <div class="header-content">
-        <%= link_to "Flip the Joy", root_path, class: "app-logo" %>
-        <nav class="main-nav">
+        <%= link_to "Flip the Joy", root_path, class: "logo" %>
+        <nav class="nav-links">
+        <!-- Menu links -->
           <% if user_signed_in? %>
             <%= link_to 'My Trips', my_trips_path %>
             <%= link_to current_user&.is_travel_agent? ? 'Open Trips' : 'Available Trips', open_trips_path %>
-            <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+            <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>
           <% else %>
-            <%= link_to 'Login', new_user_session_path %>
+            <%= link_to 'Login', new_user_session_path, class: "button-secondary" %>
           <% end %>
         </nav>
       </div>

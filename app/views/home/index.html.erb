@@ -4,7 +4,7 @@
   <p>Hello, <%= current_user.email %>!</p>
   <%= link_to "Sign out", destroy_user_session_path,
               data: { turbo_method: :delete },
-              class: "sign-out-link" %>
+              class: "button-secondary" %>
 <% else %>
   <p>Join the adventure:</p>
   <%= link_to 'Become a traveler', new_user_registration_path(type: 'traveler') %> |

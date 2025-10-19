@@ -1,4 +1,4 @@
-<% content_for :title, "My Trips - Flip the Trip" %>
+<% content_for :title, "My Trips - Flip the Joy" %>
 
 <div class="container">
   <h1>MyTrips</h1>
@@ -19,7 +19,7 @@
           <tr>
             <td>
               <% if my_trip.trip.image.present? %>
-                <%= image_tag my_trip.trip.image.url, class: "trip-image trip-thumbnail" %>
+                <%= image_tag my_trip.trip.image.url, class: "trip-thumbnail" %>
               <% else %>
                 <span class="no-image-placeholder">No Image</span>
               <% end %>

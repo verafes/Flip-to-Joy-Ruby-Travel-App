@@ -12,6 +12,12 @@ class Trips::BookedTripsController < ApplicationController
     end
   end
 
+  def destroy
+    @booked_trip = current_user.booked_trips.find(params[:id])
+    @booked_trip.destroy
+    redirect_to my_trips_path, notice: "Booking cancelled successfully"
+  end
+
   private
 
   def booking_params

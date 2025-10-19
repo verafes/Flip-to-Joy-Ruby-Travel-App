@@ -12,10 +12,12 @@
       <% booked = @booked_trips&.[](trip.id) %>
       <div class="trip-card">
         <div class="trip-image">
-          <% if trip.image.present? %>
-            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
-          <% else %>
-            <div class="no-image-placeholder">No Image</div>
+          <%= link_to trip_path(trip) do %>
+            <% if trip.image.present? %>
+              <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <% else %>
+              <div class="no-image-placeholder">No Image</div>
+            <% end %>
           <% end %>
         </div>
         <div class="trip-content">
@@ -77,6 +79,9 @@
               <span class="badge-open">Available</span>
               <%= link_to "Sign in to Book", new_user_session_path, class: "button-primary" %>
             <% end %>
+            <div class="trip-details-wrapper">
+            <%= link_to "More details", trip_path(trip)%><span class="detail-arrow">&gt;</span>
+          </div>
           </div>
         </div>
       </div>

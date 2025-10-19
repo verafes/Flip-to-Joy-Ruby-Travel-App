@@ -1,11 +1,9 @@
-<p id="notice"><%= notice %></p>
-<% if flash[:success] %>
-  <p style="color: green; font-weight: bold;"><%= flash[:success] %></p>
-<% end %>
+<% content_for :title, @trip.destination %>
+
 <h1><%= @trip.destination %></h1>
 
 <% if @trip.image.present? %>
-  <%= image_tag @trip.image.url, sclass: "trip-image trip-thumbnail" %>
+  <%= image_tag @trip.image.url, class: "trip-large-image" %>
 <% else %>
   <span class="no-image-placeholder">No Image</span>
 <% end %>
@@ -65,15 +63,25 @@
       </div>
     <% elsif @booked_trip.payment_failed? %>
       <span class="badge-failed">❌ Payment Failed</span>
-
+      <%= button_to 'Cancel Booking', trip_booked_trip_path(@trip, @booked_trip),
+                    method: :delete,
+                    data: { confirm: 'Are you sure you want to cancel this booking?' },
+                    class: "btn-delete" %>
     <% else %>
       <span class="badge-pending">Pending payment</span>
       <br>
       <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button-primary" %>
     <% end %>
+    <%= button_to 'Cancel Booking', trip_booked_trip_path(@trip, @booked_trip),
+                  method: :delete,
+                  data: { confirm: 'Are you sure you want to cancel this booking?' },
+                  class: "btn-delete" %>
 
   <% elsif @trip.open_for_booking? %>
-    <%= button_to 'Book this Trip', trip_booked_trips_path(@trip), params: { trip_id: @trip.id }, method: :post %>
+    <%= button_to 'Book this Trip', trip_booked_trips_path(@trip, trip_id: @trip.id),
+                method: :post,
+                form_class: "actions",
+                class: "button-primary" %>
   <% else %>
     <p><strong>Booking Closed</strong></p> |
   <% end %>
