@@ -2,11 +2,15 @@
 
 <h1><%= @trip.destination %></h1>
 
-<% if @trip.image.present? %>
-  <%= image_tag @trip.image.url, class: "trip-large-image" %>
-<% else %>
-  <span class="no-image-placeholder">No Image</span>
-<% end %>
+<div>
+  <% if @trip.image.present? %>
+    <% public_id = extract_public_id(@trip.image.url) %>
+    <%= image_tag cloudinary_image(public_id, width: 350, height: 200, crop: 'fit'), 
+                  class: "trip-medium-image" %>
+  <% else %>
+    <span class="no-image-placeholder">No Image</span>
+  <% end %>
+</div>
 
 <p>
   <strong>Start time:</strong>

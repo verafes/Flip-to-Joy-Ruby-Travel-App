@@ -37,14 +37,14 @@
         </nav>
       </div>
     </header>
-
-    <% flash.each do |key, message| %>
-      <div class="flash <%= flash_class(key) %>">
-        <%= message %>
-      </div>
-    <% end %>
-
     <main class="page-content">
+      <% flash.each do |key, message| %>
+        <div class="flash <%= flash_class(key) %>">
+          <%= message %>
+        </div>
+      <% end %>
+
+
       <%= yield %>
     </main>
 

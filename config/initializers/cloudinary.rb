@@ -1,3 +1,4 @@
+require 'dotenv/load'
 require 'cloudinary'
 
 Cloudinary.config do |config|
@@ -5,4 +6,5 @@ Cloudinary.config do |config|
   config.api_key = ENV['CLOUDINARY_API_KEY']
   config.api_secret = ENV['CLOUDINARY_API_SECRET']
   config.secure = true
+  config.cdn_subdomain = true
 end
