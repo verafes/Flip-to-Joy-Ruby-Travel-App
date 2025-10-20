@@ -32,7 +32,8 @@
             <%= link_to current_user&.is_travel_agent? ? 'Open Trips' : 'Available Trips', open_trips_path %>
             <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>
           <% else %>
-            <%= link_to 'Login', new_user_session_path, class: "button-secondary" %>
+            <%= link_to 'Sign In', new_user_session_path, class: "button-secondary" %>
+            <%= link_to 'Sign Up', new_user_registration_path, class: "button-secondary" %>
           <% end %>
         </nav>
       </div>
@@ -49,8 +50,8 @@
     </main>
 
     <footer class="main-footer">
-      <div class="footer-content">
-        <p>&copy; 2024 Flip the Trip. Flip your plans, find your adventure.</p>
+      <div class="footer-content footer-links">
+        <p>&copy; <%= Time.current.year %> Flip the Joy. Flip your plans, find your adventure. • Images courtesy of <a href="https://pixabay.com/" target="_blank" rel="noopener noreferrer">Pixabay</a>.</p>
       </div>
     </footer>
   </body>

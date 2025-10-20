@@ -1,13 +1,45 @@
-<h1>Welcome to Flip the Trip travel app </h1>
-<p>Flip your plans, find your adventure.</p>
+<% content_for :title, "Home Page - Flip the Joy" %>
+
+<div class="layout-wrapper">
+  <div class="home-banner">
+    <%= image_tag "travel-banner.jpg", alt: "Travel Adventure", style: "max-width: 100%; height: 400px; display: block;" %>
+    <div class="banner-text">
+      <h1>Welcome to Flip the Joy travel app</h1>
+      <p>Flip your plans, find your adventure</p>
+    </div>
+  </div>
+</div>
+
 <% if user_signed_in? %>
-  <p>Hello, <%= current_user.email %>!</p>
+  <p class="text-center">Hello, <%= current_user.email %>!</p>
   <%= link_to "Sign out", destroy_user_session_path,
               data: { turbo_method: :delete },
               class: "button-secondary" %>
 <% else %>
-  <p>Join the adventure:</p>
+<p class="text-center">Join the adventure:</p>
+
+  <h2 class="text-center">Popular Trips</h2>
+  <div class="trips-grid">
+    <% @trips.each do |trip| %>
+      <div class="trip-card">
+        <div class="trip-image">
+          <%= image_tag trip.image.url || "/assets/traveler2.jpg", class: "trip-thumbnail", alt: trip.destination %>
+        </div>
+        <div class="trip-content">
+          <h5 class="trip-destination"><%= trip.destination %></h5>
+          <p class="trip-details">
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+          </p>
+          <%= link_to "Booking Now", "#", class: "button-primary", onclick: "showRegistration(event)" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+<div id="registration-section" class="text-center">
+  <p>Choose your role:</p>
   <%= link_to 'Become a traveler', new_user_registration_path(type: 'traveler') %> |
   <%= link_to 'Become a travel agent', new_user_registration_path(type: 'travel_agent') %><br>
-  <%= link_to "Login", new_user_session_path %>
+  <%= link_to "Sign In", new_user_session_path, class: "button-secondary" %>
+</div>
 <% end %>

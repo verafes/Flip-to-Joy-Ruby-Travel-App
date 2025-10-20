@@ -1,3 +1,5 @@
+<% content_for :title, "Payment Page - Flip the Joy" %>
+
 <h2>Pay for <%= @booked_trip.trip.destination %></h2>
 
 <%= form_with model: @payment, url: payments_path(booked_trip_id: @booked_trip.id) do |f| %>
@@ -11,7 +13,9 @@
     <%= f.select :payment_method, ["credit_card", "paypal"] %>
   </div>
 
-  <%= f.submit "Pay Now" %>
+  <div class="actions">
+    <%= f.submit "Pay Now" %>
+  </div>
 <% end %>
 <% if @payment.errors.any? %>
   <div id="error_explanation">
@@ -25,7 +29,7 @@
 <% end %>
 
 <div class="actions">
-  <%= link_to "⬅ Back to Trip Details", trip_path(@booked_trip.trip), class: "button-secondary" %>
+  <%= link_to "⬅ Back to Trip Details", trip_path(@booked_trip.trip), class: "button-primary" %>
   <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
   <%= link_to "Explore More Trips", open_trips_path, class: "button-secondary" %>
 </div>
