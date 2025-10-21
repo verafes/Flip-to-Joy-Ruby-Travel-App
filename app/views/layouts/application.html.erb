@@ -38,7 +38,15 @@
         </nav>
       </div>
     </header>
-    <main class="page-content">
+    <% if controller_name == 'home' && action_name == 'index' %>
+      <div class="home-banner" style="background-image: url('<%= asset_path("travel-banner.jpg") %>');">
+        <div class="banner-text">
+          <h1>Welcome to Flip the Joy travel journey</h1>
+          <p class="moto">Flip your plans, find your adventure</p>
+        </div>
+      </div>
+    <% end %>
+    <main class="page-content" <%= 'no-padding' if controller_name == 'home' && action_name == 'index' %>">
       <% flash.each do |key, message| %>
         <div class="flash <%= flash_class(key) %>">
           <%= message %>

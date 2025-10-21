@@ -1,22 +1,11 @@
 <% content_for :title, "Home Page - Flip the Joy" %>
 
-<div class="layout-wrapper">
-  <div class="home-banner">
-    <%= image_tag "travel-banner.jpg", alt: "Travel Adventure", style: "max-width: 100%; height: 400px; display: block;" %>
-    <div class="banner-text">
-      <h1>Welcome to Flip the Joy travel app</h1>
-      <p>Flip your plans, find your adventure</p>
-    </div>
-  </div>
-</div>
-
 <% if user_signed_in? %>
   <p class="text-center">Hello, <%= current_user.email %>!</p>
   <%= link_to "Sign out", destroy_user_session_path,
               data: { turbo_method: :delete },
               class: "button-secondary" %>
 <% else %>
-<p class="text-center">Join the adventure:</p>
 
   <h2 class="text-center">Popular Trips</h2>
   <div class="trips-grid">
