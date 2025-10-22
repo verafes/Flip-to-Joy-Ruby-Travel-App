@@ -6,7 +6,13 @@
               data: { turbo_method: :delete },
               class: "button-secondary" %>
 <% else %>
-
+  <div id="registration-section" class="text-center">
+    <p class="moto mt-3">Choose your role:</p>
+    <%= link_to 'Become a traveler', new_user_registration_path(type: 'traveler'), class: "button-secondary" %>
+    <%= link_to 'Become a travel agent', new_user_registration_path(type: 'travel_agent'), class: "button-secondary" %><br>
+    <%= link_to "Sign In", new_user_session_path, class: "button-secondary" %>
+  </div>
+  <hr class="mt-3 mb-3">
   <h2 class="text-center">Popular Trips</h2>
   <div class="trips-grid">
     <% @trips.each do |trip| %>
@@ -19,16 +25,18 @@
           <p class="trip-details">
             Some quick example text to build on the card title and make up the bulk of the card's content.
           </p>
-          <%= link_to "Booking Now", "#", class: "button-primary", onclick: "showRegistration(event)" %>
+          <% if user_signed_in? %>
+            <%= link_to "Booking Now", "#", class: "button-primary", onclick: "showRegistration(event)" %>
+          <% else %>
+            <%= link_to "Booking Now",
+                          new_user_session_path(alert: "Please sign in or register before booking a trip."),
+                          class: "button-primary",
+                          data: { turbo: false } %>
+          <% end %>
+          <br>
         </div>
       </div>
     <% end %>
   </div>
 
-<div id="registration-section" class="text-center">
-  <p>Choose your role:</p>
-  <%= link_to 'Become a traveler', new_user_registration_path(type: 'traveler') %> |
-  <%= link_to 'Become a travel agent', new_user_registration_path(type: 'travel_agent') %><br>
-  <%= link_to "Sign In", new_user_session_path, class: "button-secondary" %>
-</div>
 <% end %>

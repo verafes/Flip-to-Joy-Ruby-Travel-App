@@ -1,7 +1,7 @@
 <% content_for :title, "My Trips - Flip the Joy" %>
 
 <div class="container">
-  <h1>MyTrips</h1>
+  <h1>My Trips</h1>
   <% if @my_trips.any? %>
     <table class="trips-table">
       <thead>
@@ -29,15 +29,15 @@
             <td><%= format_datetime(my_trip.trip.end_time) %></td>
             <td><%= my_trip.trip.meeting_point %></td>
 
-            <td><%= link_to 'View Trip', trip_path(my_trip.trip) %></td>
+            <td><%= link_to 'View Trip', trip_path(my_trip.trip), class: "button-secondary" %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    <p>You have not booked any trips yet.</p>
+    <p class="text-center mb-3 mt-3">You have not booked any trips yet.</p>
   <% end %>
-  <div class="actions">
+  <div class="actions home-centered">
     <%= link_to current_user&.is_travel_agent? ? 'Back to Open Trips' : 'Back to Available Trips', open_trips_path, class: "button-secondary" %>
   </div>
 </div>

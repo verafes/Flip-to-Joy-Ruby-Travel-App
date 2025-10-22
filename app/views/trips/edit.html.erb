@@ -1,10 +1,10 @@
 <% content_for :title, "Edit Trip - Flip the Joy" %>
 
-<h1>Editing Trip</h1>
+<h1>Editing Trip to <%= @trip.destination.presence || "Unknown Destination" %></h1>
 
 <%= render 'form', trip: @trip %>
 
-<div>
+<div class="home-centered">
   <%= link_to 'Show', @trip, class: "button-primary" %>
   <%= link_to 'Back', trips_path, class: "button-secondary" %>
 </div>

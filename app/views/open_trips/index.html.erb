@@ -1,9 +1,13 @@
 <h1 class="text-center"><%= current_user&.is_travel_agent? ? "Open Trips" : "Available Trips" %></h1>
 
 <%= form_with url: open_trips_path, method: :get, local: true do |f| %>
-  <%= f.label :q, "Search by destination:" %>
-  <%= f.text_field :q, value: params[:q] %>
-  <%= f.submit "Search" %>
+  <div class="field search-bar">
+    <%= f.label :q, "Search by destination:" %>
+    <div class="input-group">
+      <%= f.text_field :q, value: params[:q] %>
+      <%= f.submit "Search", class: "button-primary" %>
+    </div>
+  </div>
 <% end %>
 
 <% if @trips.any? %>
@@ -88,10 +92,10 @@
     <% end %>
   </div>
 <% else %>
-  <p>No trips available.</p>
+  <p mt-3>No trips available.</p>
 <% end %>
 
-<div class="actions">
+<div class="actions home-centered">
   <% if user_signed_in? %>
     <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
     <% if current_user&.is_travel_agent? %>
