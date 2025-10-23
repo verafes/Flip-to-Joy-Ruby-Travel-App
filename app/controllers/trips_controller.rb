@@ -5,10 +5,17 @@ class TripsController < ApplicationController
 
   # GET /trips
   def index
+    @trips = Trip.available.order(start_time: :asc)
     if current_user.is_travel_agent?
-      @trips = current_user.trips.order(start_time: :asc)
+      @trips = current_user.trips
+                   .includes(booked_trips: :traveler)
+                   .order(start_time: :asc)
     else
-      @trips = Trip.available.order(start_time: :asc)
+      @trips = Trip.available
+                   .or(Trip.joins(:booked_trips).where(booked_trips: { user_id: current_user.id }))
+                   .distinct
+                    order(start_time: :asc)
+      @booked_trips = current_user.booked_trips.includes(:trip).index_by(&:trip_id)
     end
   end
 
@@ -79,7 +86,7 @@ class TripsController < ApplicationController
 
   def require_travel_agent
     unless current_user.role == Role.travel_agent
-      redirect_to trips_path, alert: 'You are not allowed to perform this action.'
+      redirect_to trips_path, alert: "You are not allowed to perform this action."
     end
   end
 
@@ -87,7 +94,8 @@ class TripsController < ApplicationController
     params.require(:trip).permit(
       :destination, :description, :meeting_point,
         :start_time, :end_time, :minimum_persons, :maximum_persons,
-        :booking_deadline, :is_recurring_schedule, :price, :status
+        :booking_deadline, :is_recurring_schedule, :price, :status,
+        :image
       )
   end
 end

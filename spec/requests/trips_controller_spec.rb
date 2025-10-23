@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Trips", type: :request do
-# RSpec.describe TripsController, type: :controller do  
+  # RSpec.describe TripsController, type: :controller do
   let!(:role) { Role.create!(name: "travel_agent") }
   let!(:agent) do
     User.create!(email: 'agent@example.com', password: 'password123', role: role)

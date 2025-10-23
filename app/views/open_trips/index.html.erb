@@ -1,28 +1,108 @@
-<h1>Open Trips</h1>
+<h1 class="text-center"><%= current_user&.is_travel_agent? ? "Open Trips" : "Available Trips" %></h1>
 
-<% flash.each do |key, value| %>
-  <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>">
-    <%= value %>
+<%= form_with url: open_trips_path, method: :get, local: true do |f| %>
+  <div class="field search-bar">
+    <div class="input-group">
+      <%= f.text_field :q, value: params[:q], placeholder: "Search by destination" %>
+      <%= f.submit "Search", class: "button-primary" %>
+    </div>
   </div>
 <% end %>
 
-<%= form_with url: open_trips_path, method: :get, local: true do |f| %>
-  <%= f.label :q, "Search by destination:" %>
-  <%= f.text_field :q, value: params[:q] %>
-  <%= f.submit "Search" %>
+<% if @trips.any? %>
+  <div class="trips-grid">
+    <% @trips.each do |trip| %>
+      <% booked = @booked_trips&.[](trip.id) %>
+      <div class="trip-card">
+        <div class="trip-image">
+          <%= link_to trip_path(trip) do %>
+            <% if trip.image.present? %>
+              <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <% else %>
+              <div class="no-image-placeholder">No Image</div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="trip-content">
+          <h3 class="trip-destination">
+            <%= link_to trip.destination, trip_path(trip) %>
+          </h3>
+
+          <div class="trip-details">
+            <div class="trip-detail">
+              <span class="detail-label">Meeting point:</span>
+              <span class="detail-value"><%= trip.meeting_point %></span>
+            </div>
+            <div class="trip-detail">
+              <span class="detail-label">When:</span>
+              <span class="detail-value"><%= format_datetime(trip.start_time) %></span>
+            </div>
+          </div>
+          <div class="trip-status">
+            <% if user_signed_in? && current_user&.is_traveler? %>
+              <!-- Traveler view - ONLY show available trips with booking option -->
+              <% if booked.present? %>
+                <% if booked.paid? %>
+                  <span class="badge-paid">✅ Paid</span>
+                <% elsif booked.pending_payment? %>
+                  <span class="badge-pending">Pending Payment</span>
+                <% elsif booked.payment_failed? %>
+                  <span class="badge-failed">❌ Payment Failed</span>
+                <% elsif booked.cancelled? %>
+                  <span class="badge-cancelled">❌ Cancelled</span>
+                <% end %>
+              <% else %>
+                <span class="badge-open"> Available</span>
+                <%= button_to "Book Now", trip_booked_trips_path(trip_id: trip.id), method: :post, class: "button-primary" %>
+              <% end %>
+
+            <% elsif user_signed_in? && current_user.is_travel_agent? %>
+              <!-- AGENT VIEW -->
+              <% if booked.present? %>
+                <% if booked.paid? %>
+                  <span class="badge-paid">✅ Paid</span>
+                <% elsif booked.pending_payment? %>
+                  <span class="badge-pending">Pending Payment</span>
+                <% elsif booked.payment_failed? %>
+                  <span class="badge-failed">❌ Payment Failed</span>
+                <% elsif booked.cancelled? %>
+                  <span class="badge-cancelled">❌ Cancelled</span>
+                <% end %>
+
+              <% else %>
+                <% if trip.open_for_booking? %>
+                  <span class="badge-open">Open for Booking</span>
+                <% elsif trip.closed? %>
+                  <span class="badge-closed">Booking Closed</span>
+                <% elsif trip.past? %>
+                  <span class="badge-past">Past</span>
+                <% end %>
+              <% end %>
+            <% else %>
+              <span class="badge-open">Available</span>
+              <%= link_to "Sign in to Book", new_user_session_path, class: "button-primary" %>
+            <% end %>
+            <div class="trip-details-wrapper">
+            <%= link_to "More details", trip_path(trip)%><span class="detail-arrow">&gt;</span>
+          </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="mt-3 text-center">No trips available.</p>
 <% end %>
 
-<% if @trips.any? %>
-  <ul>
-    <% @trips.each do |trip| %>
-      <li>
-        <%= link_to trip.destination, trip_path(trip) %>
-        - <%= trip.meeting_point %>
-        - <%= format_datetime(trip.start_time) %>
-      </li>
+<div class="actions home-centered">
+  <% if user_signed_in? %></br>
+    <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
+    <% if current_user&.is_travel_agent? %>
+      <%= link_to 'Back to Trips', trips_path, class: "button-primary" %>
     <% end %>
-  </ul>
-<% else %>
-  <p>No trips found matching your search.</p>
-<% end %>
-<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+    <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>
+  <% else %>
+      <%= link_to 'Sign In', new_user_session_path, class: "button-secondary" %>
+      <%= link_to 'Sign Up', new_user_registration_path, class: "button-secondary" %>
+    <% end %>
+</div>

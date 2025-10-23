@@ -15,6 +15,10 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+public/uploads/tmp/
+public/uploads/
+/public/uploads/cache/
+/public/uploads/test/
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*

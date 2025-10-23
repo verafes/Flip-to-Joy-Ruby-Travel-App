@@ -1,27 +1,38 @@
-<h2>Pay for <%= @booked_trip.trip.destination %></h2>
+<% content_for :title, "Payment Page - Flip the Joy" %>
+<br />
+<h2 mt-3>Pay for <%= @booked_trip.trip.destination %></h2>
+<div class="center-box">
+  <div class="form-wrapper">
+    <%= form_with model: @payment, url: payments_path(booked_trip_id: @booked_trip.id) do |f| %>
+      <div class="field">
+        <%= f.label :amount %>
+        <%= f.number_field :amount, value: @booked_trip.trip.price, step: 0.01 %>
+      </div>
 
-<%= form_with model: @payment, url: payments_path(booked_trip_id: @booked_trip.id) do |f| %>
-  <div>
-    <%= f.label :amount %>
-    <%= f.number_field :amount, value: @booked_trip.trip.price, step: 0.01 %>
+      <div class="field">
+        <%= f.label :payment_method %>
+        <%= f.select :payment_method, ["credit_card", "paypal"] %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Pay Now" %>
+      </div>
+    <% end %>
+    <% if @payment.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+        <ul>
+          <% @payment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </div>
+</div>
 
-  <div>
-    <%= f.label :payment_method %>
-    <%= f.select :payment_method, ["credit_card", "paypal"] %>
-  </div>
-
-  <%= f.submit "Pay Now" %>
-<% end %>
-<% if @payment.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
-    <ul>
-      <% @payment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= link_to 'Back', booked_trip_path(@booked_trip) %>
+<div class="actions home-centered">
+  <%= link_to "⬅ Back to Trip Details", trip_path(@booked_trip.trip), class: "button-primary" %>
+  <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
+  <%= link_to "Explore More Trips", open_trips_path, class: "button-secondary" %>
+</div><br />

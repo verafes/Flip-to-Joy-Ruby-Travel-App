@@ -1,10 +1,11 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, "Trips - Flip the Joy" %>
 
-<h1>Trips</h1>
+<h1><%= current_user&.is_travel_agent? ? "Trips" : "Available Trips" %></h1>
 
 <table class="trips-table">
   <thead>
     <tr>
+      <th></th>
       <th>Destination</th>
       <th>Start time</th>
       <th>End time</th>
@@ -20,7 +21,16 @@
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
-        <td><%= trip.destination %></td>
+       <td>
+          <% if trip.image.present? %>
+            <%= link_to trip_path(trip) do %>
+              <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <% end %>
+          <% else %>
+            <span class="no-image-placeholder">No Image</span>
+          <% end %>
+        </td>
+        <td><%= link_to trip.destination, trip_path(trip), class: "trip-link" %></td>
         <td><%= format_datetime(trip.start_time) %></td>
         <td><%= format_datetime(trip.end_time) %></td>
         <% if current_user&.is_travel_agent? %>
@@ -28,12 +38,12 @@
           <td><%= trip.maximum_persons %></td>
         <% end %>
         <td><%= format_datetime(trip.booking_deadline) %></td>
-        <td><%= trip.is_recurring_schedule %></td>
+        <td><%= trip.is_recurring_schedule ? 'Yes' : 'No' %></td>
         <td><%= trip.status %></td>
-        <td><%= link_to 'Show', trip %></td>
+        <td><%= link_to 'Show', trip, class: "button-primary" %></td>
         <% if current_user&.is_travel_agent? %>
-          <td><%= link_to 'Edit', edit_trip_path(trip) %></td>
-          <td><%= button_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Edit', edit_trip_path(trip), class: "button-secondary" %></td>
+          <td><%= button_to 'Delete', trip, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-delete" %></td>
         <% else %>
           <td></td>
           <td></td>
@@ -43,8 +53,12 @@
   </tbody>
 </table>
 
-<br>
-<% if current_user&.is_travel_agent? %>
-  <%= link_to 'New Trip', new_trip_path %>
-<% end %>
-<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+
+<div class="home-centered mb-3">
+  <% if current_user&.is_travel_agent? %>
+    <%= link_to 'New Trip', new_trip_path, class: "button-primary" %>
+    <%= link_to 'Back to Open Trips', open_trips_path, class: "button-secondary" %>
+  <% end %>
+  <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-delete" %>
+  <br>
+</div>

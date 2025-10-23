@@ -51,6 +51,10 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
+  gem "dotenv-rails"
+
+  gem "rspec-rails", "~> 7.0.0"
+  gem "faker"
 end
 
 group :development do
@@ -58,9 +62,6 @@ group :development do
   gem "web-console"
 end
 
-group :development, :test do
-  gem "rspec-rails", "~> 7.0.0"
-  gem "faker"
-end
-
 gem "devise"
+gem "carrierwave"
+gem "cloudinary"

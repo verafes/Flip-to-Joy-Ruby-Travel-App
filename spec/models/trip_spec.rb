@@ -11,7 +11,7 @@ RSpec.describe Trip, type: :model do
         role: role
       )
     end
-    
+
   after(:each) do
     Trip.delete_all
     User.where(email: 'agent@example.com').delete_all
@@ -64,7 +64,7 @@ RSpec.describe Trip, type: :model do
         price: 0
       )
       expect(trip).to be_valid
-    end 
+    end
 
     it 'is invalid without a destination' do
       trip = Trip.new(

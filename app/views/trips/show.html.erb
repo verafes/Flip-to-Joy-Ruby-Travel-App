@@ -1,70 +1,114 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, "#{@trip.destination} - Flip the Joy" %>
 
 <h1><%= @trip.destination %></h1>
+<div class="center-box">
+  <div class="form-wrapper">
+    <div class="ml-5">
+      <% if @trip.image.present? %>
+        <% public_id = extract_public_id(@trip.image.url) %>
+        <%= image_tag cloudinary_image(public_id, width: 350, height: 200, crop: 'fit'),
+                      class: "trip-medium-image" %>
+      <% else %>
+        <span class="no-image-placeholder">No Image</span>
+      <% end %>
+    </div>
 
-<p>
-  <strong>Start time:</strong>
-  <%= format_datetime(@trip.start_time)   %>
-</p>
+    <div class="ml-5">
+      <p>
+        <strong>Start time:</strong>
+        <%= format_datetime(@trip.start_time)   %>
+      </p>
 
-<p>
-  <strong>End time:</strong>
-  <%= format_datetime(@trip.end_time)  %>
-</p>
-<% if current_user&.is_travel_agent? %>
-<p>
-  <strong>Minimum person:</strong>
-  <%= @trip.minimum_persons %>
-</p>
+      <p>
+        <strong>End time:</strong>
+        <%= format_datetime(@trip.end_time)  %>
+      </p>
 
-<p>
-  <strong>Maximum person:</strong>
-  <%= @trip.maximum_persons %>
-</p>
-<% end %>
-<p>
-  <strong>Meeting point:</strong>
-  <%= @trip.meeting_point %>
-</p>
+      <% if current_user&.is_travel_agent? %>
+        <p>
+          <strong>Minimum person:</strong>
+          <%= @trip.minimum_persons %>
+        </p>
 
-<p>
-  <strong>Price:</strong>
-  <%= number_to_currency(@trip.price) %>
-</p>
+        <p>
+          <strong>Maximum person:</strong>
+          <%= @trip.maximum_persons %>
+        </p>
+      <% end %>
 
-<p>
-  <strong>Last booking time:</strong>
-  <%= format_datetime(@trip.booking_deadline)  %>
-</p>
+      <p">
+        <strong>Meeting point:</strong>
+        <%= @trip.meeting_point %>
+      </p>
 
-<p>
-  <strong>Is recurring schedule:</strong>
-  <%= @trip.is_recurring_schedule %>
-</p>
+      <p>
+        <strong>Price:</strong>
+        <%= number_to_currency(@trip.price) %>
+      </p>
 
-<% if current_user&.is_travel_agent? %>
-  <%= link_to 'Edit', edit_trip_path(@trip) %> |
-<% end %>
+      <p>
+        <strong>Last booking time:</strong>
+        <%= format_datetime(@trip.booking_deadline)  %>
+      </p>
 
-<% if current_user&.is_traveler? %>
-  <% if @booked_trip.present? %>
-    <p><strong>You have already booked this trip.</strong></p>
+      <% if current_user&.is_travel_agent? %>
+        <p>
+          <strong>Is recurring schedule:</strong>
+          <%= @trip.is_recurring_schedule %>
+        </p>
+      <% end %>
 
-    <% if @booked_trip.paid? %>
-      <p>Payment Completed</p>
-    <% else %>
-      <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button" %>
-    <% end %>
+      <div class="buttons-inline">
+        <% if current_user&.is_travel_agent? %>
+          <%= link_to 'Edit Trip', edit_trip_path(@trip), class: "button-secondary" %>
+          <%= button_to 'Delete', @trip, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-delete" %>
+        <% end %>
+      </div>
+    </div>
 
-  <% elsif @trip.open_for_booking? %>
-    <%= button_to 'Book this Trip', trip_booked_trips_path(@trip), params: { trip_id: @trip.id }, method: :post %>
-  <% else %>
-    <p><strong>Booking Closed</strong></p> |
+    <div class="buttons-inline ml-5">
+      <% if current_user&.is_traveler? %>
+        <% if @booked_trip.present? %>
+
+          <% if @booked_trip.paid? %>
+            <div>
+              <span class="badge-paid">✅ Paid</span>
+            </div>
+          <% elsif @booked_trip.payment_failed? %>
+            <span class="badge-failed">❌ Payment Failed</span>
+            <%= button_to 'Cancel Booking', trip_booked_trip_path(@trip, @booked_trip),
+                          method: :delete,
+                          data: { confirm: 'Are you sure you want to cancel this booking?' },
+                          class: "btn-delete" %>
+          <% else %>
+            <span class="badge-pending">Pending payment</span>
+            <br>
+            <%= link_to "Checkout & Pay", new_payment_path(booked_trip_id: @booked_trip.id), class: "button-primary" %>
+          <% end %>
+          <%= button_to 'Cancel Booking', trip_booked_trip_path(@trip, @booked_trip),
+                        method: :delete,
+                        data: { confirm: 'Are you sure you want to cancel this booking?' },
+                        class: "btn-delete" %>
+
+        <% elsif @trip.open_for_booking? %>
+          <%= button_to 'Book this Trip', trip_booked_trips_path(@trip, trip_id: @trip.id),
+                      method: :post,
+                      form_class: "actions",
+                      class: "button-primary" %>
+        <% else %>
+          <p><strong>Booking Closed</strong></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="home-centered mb-3">
+  <% if current_user&.is_travel_agent? %>
+    <%= link_to 'Back to Trips', trips_path, class: "button-primary" %>
+    <%= link_to 'Open Trips', open_trips_path, class: "button-secondary" %>
+  <% elsif current_user&.is_traveler? %>
+    <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
+    <%= link_to 'Back to Available Trips', open_trips_path, class: "button-secondary" %>
   <% end %>
-<% end %>
-
-<% if current_user&.is_travel_agent? %>
-  <%= link_to 'Back', trips_path %>
-<% elsif current_user&.is_traveler? %>
-  <%= link_to 'Back to Available Trips', open_trips_path %>
-<% end %>
+</div>
