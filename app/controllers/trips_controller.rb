@@ -1,4 +1,5 @@
 class TripsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_trip, only: [ :show, :edit, :update, :destroy ]
   before_action :require_travel_agent, only: [ :new, :create, :edit, :update, :destroy ], unless: -> { Rails.env.test? }
 
@@ -63,8 +64,8 @@ class TripsController < ApplicationController
   end
 
   def require_travel_agent
-    unless current_user&.role&.name == "travel_agent"
-      redirect_to root_path, alert: "Access denied."
+    unless current_user.role == Role.travel_agent
+      redirect_to trips_path, alert: 'You are not allowed to perform this action.'
     end
   end
 
