@@ -27,13 +27,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :minimum_person %>
-    <%= form.number_field :minimum_person %>
+    <%= form.label :minimum_persons %>
+    <%= form.number_field :minimum_persons %>
   </div>
 
   <div class="field">
-    <%= form.label :maximum_person %>
-    <%= form.number_field :maximum_person %>
+    <%= form.label :maximum_persons %>
+    <%= form.number_field :maximum_persons %>
   </div>
 
   <div class="field">
@@ -56,6 +56,10 @@
     <%= form.check_box :is_recurring_schedule %>
   </div>
 
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, Trip.statuses.keys.map { |s| [s.titleize, s] }, selected: trip.status %>
+  </div>
   <div class="actions">
     <%= form.submit %>
   </div>

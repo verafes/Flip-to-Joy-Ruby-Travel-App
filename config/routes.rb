@@ -4,15 +4,13 @@ Rails.application.routes.draw do
         }
 
   get "trips/open", to: "open_trips#index", as: :open_trips
+  get "trips/my_trips", to: "trips#my_trips", as: :my_trips
 
-  resources :trips
-  resources :booked_trips
-  resources :users, only: [:index, :show, :edit, :update, :destroy]
-
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  resources :trips do
+    collection { get :my_trips }
+    resources :booked_trips, only: [:create], controller: 'trips/booked_trips'
+  end
+  resources :payments, only: [:new, :create]
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")

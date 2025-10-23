@@ -5,11 +5,20 @@ class TripsController < ApplicationController
 
   # GET /trips
   def index
-    @trips = Trip.all
+    if current_user.is_travel_agent?
+      @trips = current_user.trips.order(start_time: :asc)
+    else
+      @trips = Trip.available.order(start_time: :asc)
+    end
   end
 
   # GET /trips/1
   def show
+    if current_user&.is_traveler?
+      @booked_trip = @trip.booked_trips.find_by(traveler: current_user)
+    else
+      @booked_trip = nil
+    end
   end
 
   def new
@@ -57,6 +66,11 @@ class TripsController < ApplicationController
     end
   end
 
+  # GET /trips/my_trips
+  def my_trips
+    @my_trips = current_user.booked_trips.order(created_at: :desc)
+  end
+
   private
 
   def set_trip
@@ -72,8 +86,8 @@ class TripsController < ApplicationController
   def trip_params
     params.require(:trip).permit(
       :destination, :description, :meeting_point,
-        :start_time, :end_time, :minimum_person, :maximum_person,
-        :booking_deadline, :is_recurring_schedule, :price
-      ).merge(user_id: current_user&.id)
+        :start_time, :end_time, :minimum_persons, :maximum_persons,
+        :booking_deadline, :is_recurring_schedule, :price, :status
+      )
   end
 end

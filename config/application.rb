@@ -38,5 +38,9 @@ module FlipToJoyRubyTravelApp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Set application time zone
+    config.time_zone = "Pacific Time (US & Canada)"
+    config.active_record.default_timezone = :local
   end
 end

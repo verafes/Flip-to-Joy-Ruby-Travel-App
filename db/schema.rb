@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_08_052125) do
   create_table "booked_trips", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "trip_id", null: false
@@ -19,6 +19,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
     t.datetime "updated_at", null: false
     t.index ["trip_id"], name: "index_booked_trips_on_trip_id"
     t.index ["user_id"], name: "index_booked_trips_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "booked_trip_id", null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "payment_method"
+    t.integer "status"
+    t.datetime "paid_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booked_trip_id"], name: "index_payments_on_booked_trip_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -33,8 +44,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
     t.text "meeting_point"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer "minimum_person"
-    t.integer "maximum_person"
+    t.integer "minimum_persons"
+    t.integer "maximum_persons"
     t.datetime "booking_deadline"
     t.boolean "is_recurring_schedule"
     t.string "image"
@@ -42,6 +53,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "price"
+    t.integer "status", default: 0, null: false
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
@@ -64,6 +76,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_062453) do
 
   add_foreign_key "booked_trips", "trips"
   add_foreign_key "booked_trips", "users"
+  add_foreign_key "payments", "booked_trips"
   add_foreign_key "trips", "users"
   add_foreign_key "users", "roles"
 end
