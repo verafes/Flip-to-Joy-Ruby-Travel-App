@@ -20,7 +20,7 @@ RSpec.describe BookedTrip, type: :model do
         password: 'Passw@rd321!',
         role: traveler_role
       )
-    end  
+    end
 
   let(:trip) do
     Trip.create!(

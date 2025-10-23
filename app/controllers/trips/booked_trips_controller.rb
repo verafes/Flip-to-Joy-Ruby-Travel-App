@@ -8,7 +8,7 @@ class Trips::BookedTripsController < ApplicationController
     else
       flash.now[:alert] = "Booking failed: #{booked_trip.errors.full_messages.to_sentence}"
       @trips = Trip.available.order(start_time: :asc)
-      render 'open_trips/index', status: :unprocessable_entity
+      render "open_trips/index", status: :unprocessable_entity
     end
   end
 

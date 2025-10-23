@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_booked_trip, only: [:new, :create]
+  before_action :set_booked_trip, only: [ :new, :create ]
 
   def new
     @payment = Payment.new
@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
       else
         format.html { flash.now[:alert] = "Payment failed"; render :new }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
-      end  
+      end
     end
   end
 

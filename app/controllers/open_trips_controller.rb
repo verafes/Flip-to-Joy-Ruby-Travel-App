@@ -1,6 +1,4 @@
 class OpenTripsController < ApplicationController
-
-
   def index
     if user_signed_in? && current_user.is_travel_agent?
       @trips = Trip.all.order(start_time: :asc)

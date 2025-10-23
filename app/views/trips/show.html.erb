@@ -58,7 +58,7 @@
         </p>
       <% end %>
 
-      <div class="buttons-inline ml-3">
+      <div class="buttons-inline">
         <% if current_user&.is_travel_agent? %>
           <%= link_to 'Edit Trip', edit_trip_path(@trip), class: "button-secondary" %>
           <%= button_to 'Delete', @trip, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-delete" %>

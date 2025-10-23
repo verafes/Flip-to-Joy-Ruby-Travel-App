@@ -2,9 +2,8 @@
 
 <%= form_with url: open_trips_path, method: :get, local: true do |f| %>
   <div class="field search-bar">
-    <%= f.label :q, "Search by destination:" %>
     <div class="input-group">
-      <%= f.text_field :q, value: params[:q] %>
+      <%= f.text_field :q, value: params[:q], placeholder: "Search by destination" %>
       <%= f.submit "Search", class: "button-primary" %>
     </div>
   </div>
@@ -92,11 +91,11 @@
     <% end %>
   </div>
 <% else %>
-  <p mt-3>No trips available.</p>
+  <p class="mt-3 text-center">No trips available.</p>
 <% end %>
 
 <div class="actions home-centered">
-  <% if user_signed_in? %>
+  <% if user_signed_in? %></br>
     <%= link_to "My Trips", my_trips_path, class: "button-secondary" %>
     <% if current_user&.is_travel_agent? %>
       <%= link_to 'Back to Trips', trips_path, class: "button-primary" %>

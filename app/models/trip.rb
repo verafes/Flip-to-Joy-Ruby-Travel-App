@@ -4,10 +4,10 @@ class Trip < ApplicationRecord
   has_many :travelers, through: :booked_trips, source: :traveler
   has_many :payments, through: :booked_trips
 
-  enum :status, { 
-    open: 0, 
-    closed: 1, 
-    past: 2 
+  enum :status, {
+    open: 0,
+    closed: 1,
+    past: 2
   }
   scope :available, -> { where(status: :open).where("start_time >= ?", Date.today) }
 

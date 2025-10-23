@@ -23,12 +23,14 @@
       <tr>
        <td>
           <% if trip.image.present? %>
-            <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <%= link_to trip_path(trip) do %>
+              <%= image_tag trip.image.url, class: "trip-thumbnail" %>
+            <% end %>
           <% else %>
             <span class="no-image-placeholder">No Image</span>
           <% end %>
         </td>
-        <td><%= trip.destination %></td>
+        <td><%= link_to trip.destination, trip_path(trip), class: "trip-link" %></td>
         <td><%= format_datetime(trip.start_time) %></td>
         <td><%= format_datetime(trip.end_time) %></td>
         <% if current_user&.is_travel_agent? %>

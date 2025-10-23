@@ -231,6 +231,17 @@ footer {
     vertical-align: middle;
 }
 
+.trip-link {
+    color: #037373;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.trip-link:hover {
+    text-decoration: underline;
+    color: inherit;
+}
 /* flash alerts Styles */
 .flash {
     padding: 10px 20px;
@@ -374,6 +385,7 @@ footer {
     height: 225px;
     max-width: 100%;
     object-fit: cover;
+    height: auto;
     border-radius: 4px;
     margin-bottom: 5px;
     border: solid 1px #e0e0e0;
@@ -575,6 +587,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    white-space: nowrap;
 }
 
 .field-inline label {
@@ -609,11 +622,6 @@ footer {
     gap: 0.5rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
-}
-
-.search-bar label {
-    margin-bottom: 0;
-    white-space: nowrap;
 }
 
 .search-bar input[type="text"] {
@@ -676,10 +684,6 @@ footer {
         gap: 0.5rem;
         margin: 0;
         padding: 0;
-    }
-
-    .search-bar label {
-        margin-bottom: 0;
     }
 
     .search-bar input[type="text"] {

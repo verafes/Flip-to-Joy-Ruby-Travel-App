@@ -86,7 +86,7 @@ class TripsController < ApplicationController
 
   def require_travel_agent
     unless current_user.role == Role.travel_agent
-      redirect_to trips_path, alert: 'You are not allowed to perform this action.'
+      redirect_to trips_path, alert: "You are not allowed to perform this action."
     end
   end
 

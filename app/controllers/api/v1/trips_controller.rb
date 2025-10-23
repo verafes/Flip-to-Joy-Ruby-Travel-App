@@ -1,7 +1,7 @@
 class Api::V1::TripsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_trip, only: [:show, :update, :destroy]
-  before_action :require_travel_agent, only: [:create, :update, :destroy],
+  before_action :set_trip, only: [ :show, :update, :destroy ]
+  before_action :require_travel_agent, only: [ :create, :update, :destroy ],
                 unless: -> { Rails.env.test? }
 
 
@@ -9,9 +9,9 @@ class Api::V1::TripsController < ApplicationController
   def index
     trips = if current_user&.is_travel_agent?
               current_user&.trips.order(start_time: :asc)
-            else
+    else
               Trip.available.order(start_time: :asc)
-            end
+    end
 
     render json: trips.order(:start_time)
   end
@@ -20,7 +20,7 @@ class Api::V1::TripsController < ApplicationController
   def show
     booked_trip = if current_user&.is_traveler?
                     @trip.booked_trips.find_by(traveler: current_user)
-                  end
+    end
 
     render json: {
       trip: @trip,
