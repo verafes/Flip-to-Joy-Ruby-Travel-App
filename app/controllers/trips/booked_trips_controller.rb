@@ -4,7 +4,7 @@ class Trips::BookedTripsController < ApplicationController
   def create
     booked_trip = BookedTrip.new(booking_params)
     if booked_trip.save!
-      redirect_to my_trips_trips_path, notice: "Trip successfully booked!"
+      redirect_to my_trips_trips_path, notice: "Thank you for booking! Flip to Joy on your adventure!"
     else
       flash.now[:alert] = "Booking failed: #{booked_trip.errors.full_messages.to_sentence}"
       @trips = Trip.available.order(start_time: :asc)
