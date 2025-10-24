@@ -53,7 +53,7 @@ group :development, :test do
   gem "rubocop-rails", require: false
   gem "dotenv-rails"
 
-  gem "rspec-rails", "~> 7.0.0"
+  gem "rspec-rails", "~> 8.0.2"
   gem "faker"
 end
 
